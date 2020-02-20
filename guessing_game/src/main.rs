@@ -1,4 +1,4 @@
-// a single line comment :D
+// This is a single line comment :D
 // importing the 'io' library of the standard 'std' library.
 use std::io;
 use std::cmp::Ordering;
@@ -6,10 +6,10 @@ use rand::Rng;
 
 // the entry point for our rust program
 fn main() {
-    println!("Guess the number!");
+    println!("======== Guess the number! =========\n");
     let secret_number = rand::thread_rng().gen_range(1, 101);
     loop {
-        println!("Input your guess.");
+        println!("\nInput your guess.");
         // It creates a mutable 'mut' string
         let mut guess = String::new();
 
@@ -17,7 +17,11 @@ fn main() {
         io::stdin().read_line(&mut guess)
             .expect("Failed to read line :(");
 
-        let guess: u32 = guess.trim().parse().expect(" Please type a number");
+        // Handle invalid input, this pass to next loop iteration on invalid input
+        let guess: u32 = match guess.trim().parse() {
+            Err(_) => continue,
+            Ok(num) => num,
+        };
 
         // Prints the user input
         println!("Your guessed: {}", guess);
