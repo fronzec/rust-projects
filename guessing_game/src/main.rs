@@ -7,9 +7,9 @@ use rand::Rng;
 // the entry point for our rust program
 fn main() {
     println!("Guess the number!");
+    let secret_number = rand::thread_rng().gen_range(1, 101);
     loop {
         println!("Input your guess.");
-        let secret_number = rand::thread_rng().gen_range(1, 101);
         // It creates a mutable 'mut' string
         let mut guess = String::new();
 
@@ -24,7 +24,10 @@ fn main() {
 
         match guess.cmp(&secret_number) {
             Ordering::Less => println!("To small!"),
-            Ordering::Equal => println!("You win!"),
+            Ordering::Equal => {
+                println!("You win!");
+                break;
+            },
             Ordering::Greater => println!("To big!"),
         }
     }
