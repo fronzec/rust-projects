@@ -1,4 +1,4 @@
-use actix_web::{App, get, HttpResponse, HttpServer, post, Responder, web};
+use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
 use serde::Deserialize;
 use serde::Serialize;
 
@@ -20,7 +20,6 @@ struct ShortenedUrlDto {
     is_active: bool,
     clicks_count: u32,
     admin_url: String,
-
 }
 
 #[get("/")]
@@ -30,7 +29,9 @@ async fn root() -> impl Responder {
 
 #[get("/ping")]
 async fn ping() -> impl Responder {
-    let obj = MyObj { response: "pong".to_string() };
+    let obj = MyObj {
+        response: "pong".to_string(),
+    };
     HttpResponse::Ok().json(web::Json(obj))
 }
 
@@ -50,7 +51,9 @@ async fn shorten_url(payload: web::Json<ShortenUrlDto>) -> impl Responder {
 #[get("/{url_key}")]
 async fn redirect_to_target_url(url_key: web::Path<String>) -> impl Responder {
     let target_url = "https://fronzec.io";
-    HttpResponse::TemporaryRedirect().insert_header(("Location", target_url)).finish()
+    HttpResponse::TemporaryRedirect()
+        .insert_header(("Location", target_url))
+        .finish()
 }
 
 #[actix_web::main]
@@ -62,7 +65,7 @@ async fn main() -> std::io::Result<()> {
             .service(shorten_url)
             .service(redirect_to_target_url)
     })
-        .bind(("127.0.0.1", 8080))?
-        .run()
-        .await
+    .bind(("127.0.0.1", 8080))?
+    .run()
+    .await
 }
