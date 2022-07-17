@@ -47,6 +47,12 @@ async fn shorten_url(payload: web::Json<ShortenUrlDto>) -> impl Responder {
     HttpResponse::Ok().json(web::Json(response))
 }
 
+#[get("/{url_key}")]
+async fn redirect_to_target_url(url_key: web::Path<String>) -> impl Responder {
+    let target_url = "https://fronzec.io";
+    HttpResponse::TemporaryRedirect().insert_header(("Location", target_url)).finish()
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
@@ -54,6 +60,7 @@ async fn main() -> std::io::Result<()> {
             .service(root)
             .service(ping)
             .service(shorten_url)
+            .service(redirect_to_target_url)
     })
         .bind(("127.0.0.1", 8080))?
         .run()

@@ -11,3 +11,6 @@ Content-Type: application/json
 {
   "target_url": "https://fronzec.io"
 }
+
+###
+GET http://localhost:8080/aaaaa
