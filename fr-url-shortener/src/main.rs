@@ -1,26 +1,28 @@
-use actix_web::{App, get, HttpResponse, HttpServer, post, Responder, web};
+use actix_web::{App, get, HttpResponse, HttpServer, Responder, web};
+use serde::Serialize;
+
+#[derive(Serialize)]
+struct MyObj {
+    response: String,
+}
 
 #[get("/")]
-async fn hello() -> impl Responder {
-    HttpResponse::Ok().body("Hello world!")
+async fn root() -> impl Responder {
+    HttpResponse::Ok().body("URL shortener")
 }
 
-#[post("/echo")]
-async fn echo(req_body: String) -> impl Responder {
-    HttpResponse::Ok().body(req_body)
-}
-
-async fn manual_hello() -> impl Responder {
-    HttpResponse::Ok().body("Hey there!")
+#[get("/ping")]
+async fn ping() -> impl Responder {
+    let obj = MyObj { response: "pong".parse().unwrap() };
+    HttpResponse::Ok().json(web::Json(obj))
 }
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
-            .service(hello)
-            .service(echo)
-            .route("/hey", web::get().to(manual_hello))
+            .service(root)
+            .service(ping)
     })
         .bind(("127.0.0.1", 8080))?
         .run()
