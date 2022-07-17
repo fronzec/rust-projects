@@ -1,6 +1,6 @@
-use actix_web::{App, get, post, HttpResponse, HttpServer, Responder, web};
-use serde::Serialize;
+use actix_web::{App, get, HttpResponse, HttpServer, post, Responder, web};
 use serde::Deserialize;
+use serde::Serialize;
 
 #[derive(Serialize)]
 struct MyObj {
@@ -9,7 +9,7 @@ struct MyObj {
 
 #[derive(Deserialize)]
 struct ShortenUrlDto {
-    target_url: String
+    target_url: String,
 }
 
 #[derive(Serialize)]
@@ -36,13 +36,13 @@ async fn ping() -> impl Responder {
 
 #[post("/shorten-url")]
 async fn shorten_url(payload: web::Json<ShortenUrlDto>) -> impl Responder {
-    let response = ShortenedUrlDto{
+    let response = ShortenedUrlDto {
         id: 0,
         target_url: payload.target_url.to_string(),
         url: "aaaaa".to_string(),
         is_active: true,
         clicks_count: 0,
-        admin_url: "aaaaa".to_string()
+        admin_url: "aaaaa".to_string(),
     };
     HttpResponse::Ok().json(web::Json(response))
 }
