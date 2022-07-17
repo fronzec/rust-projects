@@ -3,3 +3,11 @@ GET http://localhost:8080/
 
 ###
 GET http://localhost:8080/ping
+
+###
+POST http://localhost:8080/shorten-url
+Content-Type: application/json
+
+{
+  "target_url": "https://fronzec.io"
+}

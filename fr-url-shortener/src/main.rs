@@ -1,9 +1,26 @@
-use actix_web::{App, get, HttpResponse, HttpServer, Responder, web};
+use actix_web::{App, get, post, HttpResponse, HttpServer, Responder, web};
 use serde::Serialize;
+use serde::Deserialize;
 
 #[derive(Serialize)]
 struct MyObj {
     response: String,
+}
+
+#[derive(Deserialize)]
+struct ShortenUrlDto {
+    target_url: String
+}
+
+#[derive(Serialize)]
+struct ShortenedUrlDto {
+    id: u64,
+    target_url: String,
+    url: String,
+    is_active: bool,
+    clicks_count: u32,
+    admin_url: String,
+
 }
 
 #[get("/")]
@@ -13,8 +30,21 @@ async fn root() -> impl Responder {
 
 #[get("/ping")]
 async fn ping() -> impl Responder {
-    let obj = MyObj { response: "pong".parse().unwrap() };
+    let obj = MyObj { response: "pong".to_string() };
     HttpResponse::Ok().json(web::Json(obj))
+}
+
+#[post("/shorten-url")]
+async fn shorten_url(payload: web::Json<ShortenUrlDto>) -> impl Responder {
+    let response = ShortenedUrlDto{
+        id: 0,
+        target_url: payload.target_url.to_string(),
+        url: "aaaaa".to_string(),
+        is_active: true,
+        clicks_count: 0,
+        admin_url: "aaaaa".to_string()
+    };
+    HttpResponse::Ok().json(web::Json(response))
 }
 
 #[actix_web::main]
@@ -23,6 +53,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .service(root)
             .service(ping)
+            .service(shorten_url)
     })
         .bind(("127.0.0.1", 8080))?
         .run()
