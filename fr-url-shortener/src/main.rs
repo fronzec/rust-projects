@@ -1,5 +1,8 @@
 use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
 use serde::{Deserialize, Serialize};
+use std::env;
+use std::process::exit;
+use std::io::{Error, ErrorKind};
 
 #[derive(Serialize)]
 struct MyObj {
@@ -51,12 +54,45 @@ async fn shorten_url(payload: web::Json<ShortenUrlDto>) -> impl Responder {
 async fn redirect_to_target_url(url_key: web::Path<String>) -> impl Responder {
     let target_url = "https://fronzec.io";
     HttpResponse::TemporaryRedirect()
-        .insert_header(("Location", target_url))
-        .finish()
+    .insert_header(("Location", target_url))
+    .finish()
+}
+
+fn log_envs() -> Result<(), Error> {
+    let user = env::var("APP_DB_USER");
+    let password = env::var("APP_DB_PASSWORD");
+    let db = env::var("APP_DB_NAME");
+
+    if user.is_err() || password.is_err() || db.is_err() {
+        println!("---->(env) one or more required envvar(s) not found, exiting");
+        return Err(Error::new(ErrorKind::Other, "some env not found!!!"))
+    }
+
+    if user.is_ok() {
+        println!("---->(env) user <{}>",user.unwrap());
+    }
+    if password.is_ok() {
+        println!("---->(env) password <***>")
+    }
+    if db.is_ok() {
+        println!("---->(env) db <{}>", db.unwrap())
+    }
+    Ok(())
+
 }
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    // Env vars
+    let res = log_envs();
+    match  res {
+        Ok(s) => s,
+        Err(error) => {
+            println!("failed to load env vars for app, detail= {}{}", error.kind().to_string(), error.to_string());
+            exit(1)
+            }
+    }
+
     HttpServer::new(|| {
         App::new()
             .service(root)
