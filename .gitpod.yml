@@ -42,10 +42,10 @@ jetbrains:
     # Select the Versions tab.
     # Click any version to copy the pluginId (short name such as org.rust.lang) of the plugin you want to install.
     plugins:
-#      - org.rust.lang
-#      - org.toml.lang
-#      - zielu.gittoolbox
-#      - izhangzhihao.rainbow.brackets
+      - org.rust.lang
+      - org.toml.lang
+      - zielu.gittoolbox
+      - izhangzhihao.rainbow.brackets
     prebuilds:
       version: both
 
