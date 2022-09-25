@@ -1,0 +1,55 @@
+# https://www.gitpod.io/docs
+# https://www.gitpod.io/docs/references/gitpod-yml
+
+# ------------------------------------------------------------------------------------------------------------------------------------------
+# Commands to start on workspace startup
+# Define how Gitpod prepares & builds your project and how it can start the project’s development server(s).
+# tasks:
+#  - init: |
+#      cargo build
+#    command: |
+#      cargo run
+
+# ------------------------------------------------------------------------------------------------------------------------------------------
+# Define a custom Docker image to be used for workspaces.
+image:
+  file: .gitpod.Dockerfile
+
+# ------------------------------------------------------------------------------------------------------------------------------------------
+# Define which path Gitpod considers the project’s workspace directory, relative to /workspace.
+# workspaceLocation: "./single-threaded"
+
+
+# ------------------------------------------------------------------------------------------------------------------------------------------
+# exposed ports
+ports:
+  - name: Web
+    port: 8080
+    onOpen: ignore
+
+# ------------------------------------------------------------------------------------------------------------------------------------------
+# Configure the VS Code editor.
+vscode:
+  extensions:
+    - rust-lang.rust-analyzer
+
+# ------------------------------------------------------------------------------------------------------------------------------------------
+# Define the integration between Gitpod and JetBrains IDEs.
+jetbrains:
+  intellij:
+    vmoptions: "-Xms2048m -Xmx2048m -XX:ReservedCodeCacheSize=1024m -Didea.connection.timeout=3600000"
+    # Find a page of the required plugin.
+    # Select the Versions tab.
+    # Click any version to copy the pluginId (short name such as org.rust.lang) of the plugin you want to install.
+    plugins:
+      - org.rust.lang
+      - org.toml.lang
+    prebuilds:
+      version: both
+
+
+
+
+
+
+
