@@ -1,3 +1,4 @@
+---
 # https://www.gitpod.io/docs
 # https://www.gitpod.io/docs/references/gitpod-yml
 
@@ -18,8 +19,6 @@ image:
 # ------------------------------------------------------------------------------------------------------------------------------------------
 # Define which path Gitpod considers the project’s workspace directory, relative to /workspace.
 # workspaceLocation: "./single-threaded"
-
-
 # ------------------------------------------------------------------------------------------------------------------------------------------
 # exposed ports
 ports:
@@ -28,13 +27,15 @@ ports:
     onOpen: ignore
 
 # ------------------------------------------------------------------------------------------------------------------------------------------
-# Configure the VS Code editor.
+# Configure the VS Code editor. It uses https://open-vsx.org/
 vscode:
   extensions:
-    - rust-lang.rust-analyzer
+#    - rust-lang.rust-analyzer
+    - pinage404.rust-extension-pack
 
 # ------------------------------------------------------------------------------------------------------------------------------------------
 # Define the integration between Gitpod and JetBrains IDEs.
+
 jetbrains:
   intellij:
     vmoptions: "-Xms2048m -Xmx2048m -XX:ReservedCodeCacheSize=1024m -Didea.connection.timeout=3600000"
@@ -47,9 +48,4 @@ jetbrains:
       - zielu.gittoolbox
       - izhangzhihao.rainbow.brackets
     prebuilds:
-      version: both
-
-
-
-
-
+      version: stable
