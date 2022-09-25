@@ -44,10 +44,10 @@ jetbrains:
     plugins:
       - org.rust.lang
       - org.toml.lang
+      - zielu.gittoolbox
+      - izhangzhihao.rainbow.brackets
     prebuilds:
       version: both
-
-
 
 
 
