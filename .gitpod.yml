@@ -18,13 +18,17 @@ image:
 
 # ------------------------------------------------------------------------------------------------------------------------------------------
 # Define which path Gitpod considers the project’s workspace directory, relative to /workspace.
-# workspaceLocation: "./single-threaded"
+# workspaceLocation: "./fr-url-shortener"
 # ------------------------------------------------------------------------------------------------------------------------------------------
 # exposed ports
 ports:
   - name: Web
     port: 8080
     onOpen: ignore
+  - name: Database
+    port: 5432
+    onOpen: notify
+    visibility: private
 
 # ------------------------------------------------------------------------------------------------------------------------------------------
 # Configure the VS Code editor. It uses https://open-vsx.org/
