@@ -5,9 +5,12 @@
 # ------------------------------------------------------------------------------------------------------------------------------------------
 # Commands to start on workspace startup
 # Define how Gitpod prepares & builds your project and how it can start the project’s development server(s).
-# tasks:
-#  - init: |
-#      cargo build
+tasks:
+  - name: Dependencies
+    init: |
+      cd ./fr-url-shortener
+      cargo build
+      cd ..
 #    command: |
 #      cargo run
 
