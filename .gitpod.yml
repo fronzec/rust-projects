@@ -56,5 +56,6 @@ jetbrains:
       - org.toml.lang
       - zielu.gittoolbox
       - izhangzhihao.rainbow.brackets
+      - lechuck.intellij-plugin.task
     prebuilds:
       version: stable
