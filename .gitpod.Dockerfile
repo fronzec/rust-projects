@@ -8,4 +8,5 @@ USER gitpod
 #    sdk default java 17.0.3-ms"
 
 # Install Taskfile
-RUN bash -c "sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b ~/.local/bin"
+# RUN bash -c "sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b ~/.local/bin"
+RUN brew install go-task/tap/go-task
