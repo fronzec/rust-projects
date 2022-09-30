@@ -1,0 +1,8 @@
+version: 3
+tasks:
+  hello:
+    cmds:
+      - echo "Task works ok!!!"
+  loadinfo:
+    cmds:
+      - psql -U '' -d urlshortenerdb -a -f "/workspace/rust-projects/fr-url-shortener/init_data.sql"
