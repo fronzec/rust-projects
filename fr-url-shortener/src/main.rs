@@ -18,6 +18,7 @@ mod schema;
 mod db;
 mod routes;
 mod config;
+mod urls;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -36,7 +37,7 @@ async fn main() -> std::io::Result<()> {
     let conn = db::connection()?;
     load_urls(&conn);
 
-    let mut server = HttpServer::new(|| App::new().configure(routes::init_routes));
+    let mut server = HttpServer::new(|| App::new().configure(routes::basic_routes).configure(urls::routes::config_url_routes));
     server.bind(("127.0.0.1", 8080))?
         .run()
         .await
