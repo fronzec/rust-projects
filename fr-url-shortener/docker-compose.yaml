@@ -25,7 +25,7 @@ services:
       - 5432:5432
     # The `env_file` tag allows us to declare an environment file
     env_file:
-    - .env # The name of your environment file (the one at the repository root)
+    - .config # The name of your environment file (the one at the repository root)
     ####
     ## If you want to persist the database data, please uncomment the lines below.
     ####

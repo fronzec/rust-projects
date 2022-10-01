@@ -3,8 +3,6 @@ extern crate diesel;
 #[macro_use]
 extern crate diesel_migrations;
 
-use std::env;
-use std::io::{Error, ErrorKind};
 use std::process::exit;
 
 use actix_web::{App, get, HttpResponse, HttpServer, post, Responder, web};
@@ -19,38 +17,16 @@ mod models;
 mod schema;
 mod db;
 mod routes;
-
-
-fn log_envs() -> Result<(), Error> {
-    let user = env::var("APP_DB_USER");
-    let password = env::var("APP_DB_PASSWORD");
-    let db = env::var("APP_DB_NAME");
-
-    if user.is_err() || password.is_err() || db.is_err() {
-        println!("---->(env) one or more required envvar(s) not found, exiting");
-        return Err(Error::new(ErrorKind::Other, "some env not found!!!"));
-    }
-
-    if user.is_ok() {
-        println!("---->(env) user <{}>", user.unwrap());
-    }
-    if password.is_ok() {
-        println!("---->(env) password <***>")
-    }
-    if db.is_ok() {
-        println!("---->(env) db <{}>", db.unwrap())
-    }
-    Ok(())
-}
+mod config;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     // Env vars
-    let res = log_envs();
+    let res = config::configs::log_envs();
     match res {
         Ok(s) => s,
         Err(error) => {
-            println!("failed to load env vars for app, detail= {}{}", error.kind().to_string(), error.to_string());
+            println!("failed to load config vars for app, detail= {}{}", error.kind().to_string(), error.to_string());
             exit(1)
         }
     }
