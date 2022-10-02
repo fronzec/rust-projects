@@ -1,8 +1,22 @@
 version: 3
+env:
+  DATABASE_URL: postgresql://localhost:5432/urlshortenerdb
+
 tasks:
   hello:
     cmds:
       - echo "Task works ok!!!"
+  dbfullsetup:
+    cmds:
+      - task: dieselmigrationrun
+      - task: loadinfo
+      - echo "db setup finished"
+  createdb:
+    cmds:
+      - psql -U '' postgres -c 'create database urlshortenerdb;'
   loadinfo:
     cmds:
       - psql -U '' -d urlshortenerdb -a -f "/workspace/rust-projects/fr-url-shortener/init_data.sql"
+  dieselmigrationrun:
+    cmds:
+      - diesel migration run --database-url $DATABASE_URL

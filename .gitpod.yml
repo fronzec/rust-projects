@@ -11,8 +11,8 @@ tasks:
       cd ./fr-url-shortener
       cargo build
       cd ..
-      psql -U '' postgres -c 'create database urlshortenerdb;'
-#      psql -U '' -d urlshortenerdb -a -f "/workspace/rust-projects/fr-url-shortener/init_data.sql" # insert on tables initial data require tables first already created TODO fixit
+      psql -U '' postgres -c 'create database urlshortenerdb;' # Create the database
+      task dbfullsetup # Run Diesel migrations and load initial data
 #    command: |
 #      cargo run
 
