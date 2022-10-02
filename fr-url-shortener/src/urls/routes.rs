@@ -1,5 +1,6 @@
 use actix_web::{get, HttpResponse, post, Responder, web};
-use super::dto::{ShortenUrlDto, ShortenedUrlDto};
+
+use super::dto::{ShortenedUrlDto, ShortenUrlDto};
 
 #[post("/shorten-url")]
 async fn shorten_url(payload: web::Json<ShortenUrlDto>) -> impl Responder {
@@ -22,6 +23,7 @@ async fn redirect_to_target_url(url_key: web::Path<String>) -> impl Responder {
         .finish()
 }
 
+/// Configures the Urls routes
 pub fn config_url_routes(config: &mut web::ServiceConfig) {
     config.service(shorten_url);
     config.service(redirect_to_target_url);

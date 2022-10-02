@@ -22,12 +22,12 @@ mod urls;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    // Env vars
-    let res = config::configs::log_envs();
+    // Configs
+    let res = config::configs::load_configs();
     match res {
         Ok(s) => s,
         Err(error) => {
-            println!("failed to load config vars for app, detail= {}{}", error.kind().to_string(), error.to_string());
+            println!("---> app: failed on configuration step, exiting");
             exit(1)
         }
     }
@@ -49,7 +49,7 @@ pub fn load_urls(connection: &PgConnection) -> () {
     let results = urls.filter(is_active.eq(true))
         .limit(5)
         .load::<Url>(connection)
-        .expect("Error loading urls");
+        .expect("----> app: error loading urls step, exiting");
 
     println!("Displaying {} urls", results.len());
     for url in results {
