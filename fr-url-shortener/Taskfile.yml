@@ -1,6 +1,6 @@
 version: 3
 env:
-  DATABASE_URL: postgresql://localhost:5432/urlshortenerdb
+  APP_DATABASE_URL: postgresql://localhost:5432/urlshortenerdb
 
 tasks:
   hello:
@@ -19,4 +19,8 @@ tasks:
       - psql -U '' -d urlshortenerdb -a -f "/workspace/rust-projects/fr-url-shortener/init_data.sql"
   dieselmigrationrun:
     cmds:
-      - diesel migration run --database-url $DATABASE_URL
+      - echo 'runing migration into' '<'$APP_DATABASE_URL'>'
+      - diesel migration run --database-url $APP_DATABASE_URL
+  echotest:
+    cmds:
+      - echo 'runing migration into' '<'$APP_DATABASE_URL'>'
