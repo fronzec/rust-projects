@@ -1,3 +1,4 @@
+# Task reference usage https://taskfile.dev/usage/
 version: 3
 env:
   APP_DATABASE_URL: postgresql://localhost:5432/urlshortenerdb
