@@ -52,10 +52,16 @@ jetbrains:
     # Select the Versions tab.
     # Click any version to copy the pluginId (short name such as org.rust.lang) of the plugin you want to install.
     plugins:
-      - org.rust.lang
-      - org.toml.lang
-      - zielu.gittoolbox
-      - izhangzhihao.rainbow.brackets
-      - lechuck.intellij-plugin.task
+      - org.rust.lang # Rust
+      - org.toml.lang # Toml
+      - zielu.gittoolbox # GitToolBox
+      - izhangzhihao.rainbow.brackets # Rainbow Brackets
+      - lechuck.intellij-plugin.task # Taskfile
+      - cn.yiiguxing.plugin.translate # Translation
+      - com.intellij.grazie.pro # Grazie pro
+      - de.endrullis.idea.postfixtemplates # Custom Postfix Templates
+      - ru.adelf.idea.dotenv # .env files support
+      - String Manipulation # String Manipulation
+      - com.ultrahob.zerolength.plugin # Zero Width Characters locator
     prebuilds:
       version: stable
