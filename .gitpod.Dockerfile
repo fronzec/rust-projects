@@ -9,4 +9,8 @@ USER gitpod
 
 # Install Taskfile
 # RUN bash -c "sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b ~/.local/bin"
+# Install Taskfile
 RUN brew install go-task/tap/go-task
+
+# Install Diesel CLI only for postgres
+RUN cargo install diesel_cli --no-default-features --features postgres
