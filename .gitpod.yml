@@ -46,7 +46,7 @@ vscode:
 # Define the integration between Gitpod and JetBrains IDEs.
 
 jetbrains:
-  intellij:
+  goland:
     vmoptions: "-Xms2048m -Xmx2048m -XX:ReservedCodeCacheSize=1024m -Didea.connection.timeout=3600000"
     # Find a page of the required plugin.
     # Select the Versions tab.
