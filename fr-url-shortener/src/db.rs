@@ -19,7 +19,7 @@ lazy_static! {
         let manager = ConnectionManager::<PgConnection>::new(database_url);
          Pool::builder().max_size(25).build(manager).expect("Failed to create db pool")
     // Basic Pool Manager implementation
-        // Pool::new(manager).expect("Failed to create db pool")
+    // Pool::new(manager).expect("Failed to create db pool")
     };
 }
 

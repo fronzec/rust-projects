@@ -22,7 +22,7 @@ services:
     # but take into consideration that it will change the way
     # you are connecting to your database.
     ports:
-      - 5432:5432
+      - "5432:5432"
     # The `env_file` tag allows us to declare an environment file
     env_file:
     - .config # The name of your environment file (the one at the repository root)
