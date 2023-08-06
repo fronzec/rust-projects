@@ -6,7 +6,7 @@ use diesel::r2d2::ConnectionManager;
 use lazy_static::lazy_static;
 use r2d2;
 
-type Pool = r2d2::Pool<ConnectionManager<PgConnection>>;
+pub(crate) type Pool = r2d2::Pool<ConnectionManager<PgConnection>>;
 pub type DbConnection = r2d2::PooledConnection<ConnectionManager<PgConnection>>;
 
 // Macro to embed the migrations into the compiled applications.
@@ -17,7 +17,18 @@ lazy_static! {
         let database_url = env::var("APP_DATABASE_URL")
         .expect("APP_DATABASE_URL must be set");
         let manager = ConnectionManager::<PgConnection>::new(database_url);
-         Pool::builder().max_size(25).build(manager).expect("Failed to create db pool")
+        let result = Pool::builder().max_size(25).build(manager);
+        println!("pool");
+        match result {
+            Ok(pool) => {
+                println!("pool created successfully");
+                pool
+            },
+            Err(err) => {
+                println!("cannot create pool {}", err.to_string());
+                panic!()
+            }
+        }
     // Basic Pool Manager implementation
     // Pool::new(manager).expect("Failed to create db pool")
     };
@@ -30,7 +41,15 @@ pub fn init() {
 }
 
 pub fn connection() -> Result<DbConnection, Error> {
-    POOL.get()
-        .map_err(|e| Error::new(ErrorKind::Other, format!("Failed getting DB connection: {}", e)))
+    POOL.get().map_err(|e| {
+        eprintln!("error getting connection");
+        Error::new(
+            ErrorKind::Other,
+            format!("Failed getting DB connection: {}", e),
+        )
+    })
 }
 
+pub fn get_pool_clone() -> Pool {
+    POOL.clone()
+}

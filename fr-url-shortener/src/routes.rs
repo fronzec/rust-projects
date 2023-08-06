@@ -1,11 +1,10 @@
-use actix_web::{get, HttpResponse, Responder, web};
+use actix_web::{get, web, HttpResponse, Responder};
 use serde::Serialize;
 
 #[derive(Serialize)]
 pub struct MyObj {
     response: String,
 }
-
 
 #[get("/")]
 async fn root() -> impl Responder {

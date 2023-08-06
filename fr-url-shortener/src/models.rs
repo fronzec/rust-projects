@@ -1,7 +1,9 @@
+use crate::schema::urls;
 use chrono::NaiveDateTime;
+use serde::{Deserialize, Serialize};
 
 // Using #[derive(Queryable)] assumes that the order of fields
-#[derive(Queryable)]
+#[derive(Queryable, Insertable, Serialize, Deserialize)]
 pub struct Url {
     pub id: i32,
     pub key: String,

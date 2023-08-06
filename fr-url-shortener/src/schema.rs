@@ -1,6 +1,4 @@
-// @generated automatically by Diesel CLI.
-
-diesel::table! {
+table! {
     urls (id) {
         id -> Int4,
         key -> Varchar,

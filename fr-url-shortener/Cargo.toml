@@ -11,7 +11,7 @@ actix-web = "4"
 serde = { version = "1.0.139", features = ["derive"] }
 dotenv = "0.15.0"
 diesel = { version = "1.4.4", features = ["postgres", "chrono", "r2d2"] }
-chrono = "0.4"
+chrono = { version = "0.4", features = ["serde"] }
 lazy_static = "1.4"
 r2d2 = "0.8.10"
 diesel_migrations = "1.4.0"

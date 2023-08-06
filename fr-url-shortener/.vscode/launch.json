@@ -1,0 +1,59 @@
+{
+    // Use IntelliSense para saber los atributos posibles.
+    // Mantenga el puntero para ver las descripciones de los existentes atributos.
+    // Para más información, visite: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'fr-url-shortener'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=fr-url-shortener",
+                    "--package=fr-url-shortener"
+                ],
+                "filter": {
+                    "name": "fr-url-shortener",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "APP_DB_USER": "rootuser",
+                "APP_DB_PASSWORD":"rootpassword",
+                "APP_DB_NAME":"urlshortenerdb",
+                "APP_DATABASE_URL":"postgres://rootuser:rootpassword@localhost/urlshortenerdb"
+            }
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'fr-url-shortener'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=fr-url-shortener",
+                    "--package=fr-url-shortener"
+                ],
+                "filter": {
+                    "name": "fr-url-shortener",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "APP_DB_USER": "rootuser",
+                "APP_DB_PASSWORD":"rootpassword",
+                "APP_DB_NAME":"urlshortenerdb",
+                "APP_DATABASE_URL":"postgres://rootuser:rootpassword@127.0.0.1/urlshortenerdb"
+            }
+        }
+    ]
+}

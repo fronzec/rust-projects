@@ -4,9 +4,6 @@ use std::fs::File;
 use std::io::{BufReader, Error, ErrorKind};
 
 use java_properties::{PropertiesError, PropertiesIter};
-use java_properties::PropertiesWriter;
-use java_properties::read;
-use java_properties::write;
 
 pub fn load_configs() -> Result<(), Error> {
     let user = env::var("APP_DB_USER");
@@ -42,8 +39,15 @@ pub fn load_configs() -> Result<(), Error> {
             }
         }
         Err(error) => {
-            println!("failed to load configs from file <{}>, detail= {}", config_file, error.to_string());
-            return Err(Error::new(ErrorKind::Other, "configuration file cannot be read"));
+            println!(
+                "failed to load configs from file <{}>, detail= {}",
+                config_file,
+                error.to_string()
+            );
+            return Err(Error::new(
+                ErrorKind::Other,
+                "configuration file cannot be read",
+            ));
         }
     }
 
