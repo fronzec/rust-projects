@@ -4,7 +4,7 @@ use termion::input::TermRead;
 use termion::raw::IntoRawMode;
 
 fn die( e: std::io::Error) {
-    panic!(e)
+    panic!("{}", e)
 }
 
 fn main() {
@@ -20,6 +20,7 @@ fn main() {
                         println!("{:?} ({})\r", c as u8, c);
                     }
                 }
+                // On Ctrl + q ends program
                 Key::Ctrl('q') => break,
                 _ => println!("{:?\r}", key)
             },
