@@ -1,3 +1,4 @@
+#![warn(clippy::all, clippy::pedantic)]
 use crossterm::event::{read, Event::Key, KeyCode::Char};
 use crossterm::terminal::{disable_raw_mode, enable_raw_mode};
 
@@ -12,7 +13,7 @@ impl Editor {
         loop {
             match read() {
                 Ok(Key(event)) => {
-                    println!("{:?} \r", event);
+                    println!("{event:?} \r");
                     match event.code {
                         Char(c) => {
                             if c == 'q' {
@@ -22,7 +23,7 @@ impl Editor {
                         _ => (),
                     }
                 }
-                Err(err) => println!("Error: {}", err),
+                Err(err) => println!("Error: {err}"),
                 _ => ()
             }
         }
