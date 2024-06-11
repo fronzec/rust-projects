@@ -15,6 +15,7 @@ impl Editor {
 
     pub fn run(&mut self) {
         Self::initialize().unwrap();
+        self.draw_rows().unwrap();
         let result = self.repl();
         Self::terminate().unwrap();
         result.unwrap()
@@ -63,6 +64,18 @@ impl Editor {
         if self.should_quit {
             Self::clean_screen()?;
             print!("Goodbye!.\r\n");
+        }
+        Ok(())
+    }
+
+    fn draw_rows(&self) -> Result<(), std::io::Error> {
+        let (_, rows) = size()?;
+        print!("\r");
+        for current_row in 0..rows {
+            print!("~");
+            if current_row + 1 < rows {
+                print!("\r\n");
+            }
         }
         Ok(())
     }
