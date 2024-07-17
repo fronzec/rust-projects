@@ -2,7 +2,6 @@ use std::io::stdout;
 
 use crossterm::event::{Event, Event::Key, KeyCode::Char, KeyEvent, KeyModifiers, read};
 use crossterm::execute;
-use crossterm::terminal::{Clear, ClearType, disable_raw_mode, enable_raw_mode};
 use crossterm::terminal::{size, Clear, ClearType, disable_raw_mode, enable_raw_mode};
 
 pub struct Editor {
