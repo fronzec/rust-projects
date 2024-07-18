@@ -1,5 +1,3 @@
-use std::io::stdout;
-
 use crossterm::event::{Event, Event::Key, KeyCode::Char, KeyEvent, KeyModifiers, read};
 mod terminal;
 use terminal::Terminal;
