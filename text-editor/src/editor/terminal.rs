@@ -1,5 +1,4 @@
 use crossterm::cursor::{Hide, MoveTo, Show};
-use crossterm::execute;
 use crossterm::queue;
 use crossterm::style::Print;
 use crossterm::terminal::{disable_raw_mode, enable_raw_mode, size, Clear, ClearType};
@@ -21,6 +20,7 @@ pub struct Terminal;
 
 impl Terminal {
     pub fn terminate() -> Result<(), Error> {
+        Self::execute()?;
         disable_raw_mode()?;
         Ok(())
     }
@@ -43,7 +43,6 @@ impl Terminal {
     }
 
     pub fn move_cursor_to(position: Position) -> Result<(), Error> {
-        execute!(stdout(), Clear(ClearType::All))?;
         queue!(stdout(), MoveTo(position.x, position.y))?;
         Ok(())
     }
