@@ -6,14 +6,14 @@ use std::io::{stdout, Error, Write};
 
 #[derive(Copy, Clone)]
 pub struct Size {
-    pub height: u16,
-    pub width: u16,
+    pub height: usize,
+    pub width: usize,
 }
 
 #[derive(Copy, Clone)]
 pub struct Position {
-    pub x: u16,
-    pub y: u16,
+    pub x: usize,
+    pub y: usize,
 }
 
 pub struct Terminal;
@@ -42,8 +42,12 @@ impl Terminal {
         Ok(())
     }
 
+    /// Moves the cursor to the given position
+    /// # Arguments
+    /// * `Position` the `Position` to move the cursor to. Will be truncated to `u16::MAX` if bigger.
     pub fn move_cursor_to(position: Position) -> Result<(), Error> {
-        Self::queue_command(MoveTo(position.x, position.y))?;
+        #[allow(clippy::as_conversions, clippy::cast_possible_truncation)]
+        Self::queue_command(MoveTo(position.x as u16, position.y as u16))?;
         Ok(())
     }
 
@@ -61,8 +65,15 @@ impl Terminal {
         Ok(())
     }
 
+    /// Returns the current size of this Terminal.
+    /// Edge case for systems with `usize` < `u16`:
+    /// * A `Size` representing the terminal size. Any coordinate `z` truncated to `usize` < `z` < `u16`
     pub fn size() -> Result<Size, Error> {
-        let (width, height) = size()?;
+        let (width_u16, height_u16) = size()?;
+        #[allow(clippy::as_conversions)]
+        let height = height_u16 as usize;
+        #[allow(clippy::as_conversions)]
+        let width = width_u16 as usize;
         Ok(Size { height, width })
     }
 
