@@ -6,7 +6,7 @@ use crossterm::event::{
     KeyCode, KeyEvent, KeyEventKind, KeyModifiers,
 };
 mod terminal;
-use std::{env, io::Error, usize::MIN};
+use std::{env, io::Error};
 use terminal::{Position, Size, Terminal};
 
 const NAME: &str = env!("CARGO_PKG_NAME");
