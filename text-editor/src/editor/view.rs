@@ -8,7 +8,7 @@ const VERSION: &str = env!("CARGO_PKG_VERSION");
 
 #[derive(Default)]
 pub struct View {
-    buffer: Buffer
+    buffer: Buffer,
 }
 
 impl View {
@@ -49,7 +49,7 @@ impl View {
     }
 
     pub fn render_buffer(&self) -> Result<(), Error> {
-        let Size {height, ..} = Terminal::size()?;
+        let Size { height, .. } = Terminal::size()?;
         for current_row in 0..height {
             Terminal::clear_line()?;
             if let Some(line) = self.buffer.lines.get(current_row) {

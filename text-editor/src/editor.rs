@@ -21,7 +21,7 @@ struct Location {
 pub struct Editor {
     should_quit: bool,
     location: Location,
-    view: View
+    view: View,
 }
 
 impl Editor {
@@ -35,7 +35,7 @@ impl Editor {
     fn handle_args(&mut self) {
         let args: Vec<String> = env::args().collect();
         if let Some(file_name) = args.get(1) {
-           self.view.load(file_name);
+            self.view.load(file_name);
         }
     }
 
