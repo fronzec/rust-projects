@@ -22,9 +22,15 @@ pub struct Editor {
 impl Editor {
     /// Entry point function
     pub fn new() -> Result<Self, Error> {
+        //Retrieve the current hook, which by default does some nice printing of the panic
         let current_hook = take_hook();
+        // Define a new closure that takes a reference to the PanicInfo.
+        // Move any external variables needed within the closure here.
+        // Place the closure into a Box and set it as the new panic hook.
         set_hook(Box::new(move |panic_info| {
             let _ = Terminal::terminate();
+            // Our custom panic hook logic goes here
+            // Execute the original hook to retain default panic output behavior.
             current_hook(panic_info);
         }));
         Terminal::initialize()?;
