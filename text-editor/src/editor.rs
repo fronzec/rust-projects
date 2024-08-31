@@ -1,10 +1,6 @@
 use core::cmp::min;
 
-use crossterm::event::{
-    read,
-    Event::{self, Key},
-    KeyCode, KeyEvent, KeyEventKind, KeyModifiers,
-};
+use crossterm::event::{read, Event, KeyCode, KeyEvent, KeyEventKind, KeyModifiers};
 mod terminal;
 mod view;
 use std::{env, io::Error};
@@ -25,6 +21,7 @@ pub struct Editor {
 }
 
 impl Editor {
+    /// Entry point function
     pub fn run(&mut self) {
         Terminal::initialize().unwrap();
         self.handle_args();
@@ -32,6 +29,7 @@ impl Editor {
         Terminal::terminate().unwrap();
         result.unwrap()
     }
+
     fn handle_args(&mut self) {
         let args: Vec<String> = env::args().collect();
         if let Some(file_name) = args.get(1) {
@@ -39,43 +37,55 @@ impl Editor {
         }
     }
 
-    fn repl(&mut self) -> Result<(), std::io::Error> {
+    fn repl(&mut self) -> Result<(), Error> {
         loop {
             self.refresh_screen()?;
             if self.should_quit {
                 break;
             }
             let event = read()?;
-            self.evaluate_event(&event);
+            self.evaluate_event(event)?;
         }
         Ok(())
     }
 
-    fn evaluate_event(&mut self, event: &Event) -> Result<(), Error> {
-        if let Key(KeyEvent {
-            code,
-            modifiers,
-            kind: KeyEventKind::Press,
-            ..
-        }) = event
-        {
-            match code {
-                KeyCode::Char('q') if *modifiers == KeyModifiers::CONTROL => {
+    #[allow(clippy::needless_pass_by_value)]
+    fn evaluate_event(&mut self, event: Event) -> Result<(), Error> {
+        match event {
+            Event::Key(KeyEvent {
+                code,
+                modifiers,
+                kind: KeyEventKind::Press,
+                ..
+            }) => match (code, modifiers) {
+                (KeyCode::Char('q'), KeyModifiers::CONTROL) => {
                     self.should_quit = true;
                 }
-                KeyCode::Up
-                | KeyCode::Down
-                | KeyCode::Left
-                | KeyCode::Right
-                | KeyCode::PageDown
-                | KeyCode::PageUp
-                | KeyCode::End
-                | KeyCode::Home => {
-                    self.move_point(*code)?;
+                (
+                    KeyCode::Up
+                    | KeyCode::Down
+                    | KeyCode::Left
+                    | KeyCode::Right
+                    | KeyCode::PageDown
+                    | KeyCode::PageUp
+                    | KeyCode::End
+                    | KeyCode::Home,
+                    _,
+                ) => {
+                    self.move_point(code)?;
                 }
                 _ => (),
+            },
+            Event::Resize(width_u16, height_u16) => {
+                #[allow(clippy::as_conversions)]
+                let height = height_u16 as usize;
+                #[allow(clippy::as_conversions)]
+                let width = width_u16 as usize;
+                self.view.resize(Size { height, width });
             }
+            _ => {}
         }
+
         Ok(())
     }
 
@@ -114,9 +124,9 @@ impl Editor {
         Ok(())
     }
 
-    fn refresh_screen(&self) -> Result<(), Error> {
+    fn refresh_screen(&mut self) -> Result<(), Error> {
         Terminal::hide_caret()?;
-        Terminal::move_caret_to(Position::default());
+        Terminal::move_caret_to(Position::default())?;
         if self.should_quit {
             Terminal::clear_screen()?;
             Terminal::print("Goodbye.\r\n")?;
@@ -128,7 +138,7 @@ impl Editor {
             })?;
         }
         Terminal::show_caret()?;
-        Terminal::execute();
+        Terminal::execute()?;
         Ok(())
     }
 }

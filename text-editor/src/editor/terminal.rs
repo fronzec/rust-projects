@@ -4,7 +4,7 @@ use crossterm::terminal::{disable_raw_mode, enable_raw_mode, size, Clear, ClearT
 use crossterm::{queue, Command};
 use std::io::{stdout, Error, Write};
 
-#[derive(Copy, Clone)]
+#[derive(Default, Copy, Clone)]
 pub struct Size {
     pub height: usize,
     pub width: usize,
@@ -19,15 +19,17 @@ pub struct Position {
 pub struct Terminal;
 
 impl Terminal {
-    pub fn terminate() -> Result<(), Error> {
-        Self::execute()?;
-        disable_raw_mode()?;
-        Ok(())
-    }
+
     pub fn initialize() -> Result<(), Error> {
         enable_raw_mode()?;
         Self::clear_screen()?;
         Self::execute()?;
+        Ok(())
+    }
+
+    pub fn terminate() -> Result<(), Error> {
+        Self::execute()?;
+        disable_raw_mode()?;
         Ok(())
     }
 
