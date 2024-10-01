@@ -19,6 +19,7 @@ fn hello(name: &str) -> String {
     format!("Hello, {}!", name)
 }
 
+/// More complex GET endpoint
 #[get("/hello/<name>/<age>/<cool>")]
 fn hello_world(name: String, age: i32, cool: bool) -> String {
     if cool {
@@ -28,6 +29,7 @@ fn hello_world(name: String, age: i32, cool: bool) -> String {
     }
 }
 
+/// Using launch is the recommended way to run an app using rocket
 #[launch]
 fn rocket() -> _ {
     rocket::build().mount("/", routes![index, ping, hello, hello_world])
