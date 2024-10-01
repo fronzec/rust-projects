@@ -12,3 +12,12 @@ GET http://127.0.0.1:8000/hello/Jhon/18/true
 
 ### complex 2
 GET http://127.0.0.1:8000/hello/Jhon/18/false
+
+### static files
+GET http://127.0.0.1:8000/static/a.html
+
+### static files
+GET http://127.0.0.1:8000/static/b.html
+
+### static files NOT FOUND
+GET http://127.0.0.1:8000/static/b.html

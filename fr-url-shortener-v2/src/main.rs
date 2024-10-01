@@ -2,6 +2,8 @@
 extern crate rocket;
 
 use std::fmt::format;
+use std::path::{Path, PathBuf};
+use rocket::fs::NamedFile;
 
 #[get("/")]
 fn index() -> &'static str {
@@ -29,8 +31,14 @@ fn hello_world(name: String, age: i32, cool: bool) -> String {
     }
 }
 
+/// Serving static files with Multiple Segments, PathBuf is secure against path traversal attacks.
+#[get("/static/<file..>")]
+async fn static_files(file: PathBuf) -> Option<NamedFile> {
+    NamedFile::open(Path::new("static/").join(file)).await.ok()
+}
+
 /// Using launch is the recommended way to run an app using rocket
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![index, ping, hello, hello_world])
+    rocket::build().mount("/", routes![index, ping, hello, hello_world, static_files])
 }
