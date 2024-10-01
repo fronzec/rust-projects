@@ -6,3 +6,9 @@ GET http://127.0.0.1:8000/ping
 
 ### hello
 GET http://127.0.0.1:8000/hello/Jhon
+
+### complex 1
+GET http://127.0.0.1:8000/hello/Jhon/18/true
+
+### complex 2
+GET http://127.0.0.1:8000/hello/Jhon/18/false

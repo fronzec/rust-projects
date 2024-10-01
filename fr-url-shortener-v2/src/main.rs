@@ -19,7 +19,16 @@ fn hello(name: &str) -> String {
     format!("Hello, {}!", name)
 }
 
+#[get("/hello/<name>/<age>/<cool>")]
+fn hello_world(name: String, age: i32, cool: bool) -> String {
+    if cool {
+        format!("Hello, {} year old named {}!", age, name)
+    } else {
+        format!("{} you aren't very cool yet", name)
+    }
+}
+
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![index, ping, hello])
+    rocket::build().mount("/", routes![index, ping, hello, hello_world])
 }
