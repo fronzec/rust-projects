@@ -3,7 +3,7 @@ extern crate rocket;
 
 use std::fmt::format;
 use std::path::{Path, PathBuf};
-use rocket::fs::NamedFile;
+use rocket::fs::{NamedFile, FileServer};
 
 #[get("/")]
 fn index() -> &'static str {
@@ -40,5 +40,8 @@ async fn static_files(file: PathBuf) -> Option<NamedFile> {
 /// Using launch is the recommended way to run an app using rocket
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![index, ping, hello, hello_world, static_files])
+    rocket::build()
+        .mount("/", routes![index, ping, hello, hello_world, static_files])
+        // other easier way to serve files from `/static` at path `/public`
+        .mount("/public", FileServer::from("static"))
 }
