@@ -27,7 +27,7 @@ GET http://127.0.0.1:8000/static/b.html
 GET http://127.0.0.1:8000/public/a.html
 
 ### post a short url
-POST http://127.0.0.1:8000/short-url/
+POST http://127.0.0.1:8000/short-url
 Content-Type: application/json
 
 {
