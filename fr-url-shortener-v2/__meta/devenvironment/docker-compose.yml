@@ -1,31 +1,41 @@
 ---
 version: '3.8'
+
+# You should know that Docker Compose works with services.
+# 1 service = 1 container.
+# For example, a service, a server, a client, a database...
+# We use the keyword 'services' to start to create services.
 services:
-  db:
-    image: mysql:8.2.0
-    restart: "no"
-    env_file:
-      - .env
-    environment:
-      MYSQL_DATABASE: ${DB_NAME}
-      # So you don't have to use root, but you can if you like
-      MYSQL_USER: ${DB_USERNAME_NONROOT}
-      # You can use whatever password you like
-      MYSQL_PASSWORD: ${DB_PASSWORD_NONROOT}
-      # Password for root access empty
-      MYSQL_ROOT_PASSWORD: ""
-      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+  # The name of our service is "database"
+  # but you can use the name of your choice.
+  # Note: This may change the commands you are going to use a little bit.
+  database:
+    # Official Postgres image from DockerHub (we use the last version)
+    image: 'postgres:14.4-alpine'
+
+    # By default, a Postgres database is running on the 5432 port.
+    # If we want to access the database from our computer (outside the container),
+    # we must share the port with our computer's port.
+    # The syntax is [port we want on our machine]:[port we want to retrieve in the container]
+    # Note: You are free to change your computer's port,
+    # but take into consideration that it will change the way
+    # you are connecting to your database.
     ports:
-      # <Port exposed on host machine> : < MySQL Port running inside container>
-      - '3306:3306'
-    expose:
-      # Opens port 3306 on the container
-      - '3306'
-      # Where our data will be persisted
+      - "5432:5432"
+    # The `env_file` tag allows us to declare an environment file
+    env_file:
+      - compose.env # The name of your environment file (the one at the repository root)
+    ####
+    ## If you want to persist the database data, please uncomment the lines below.
+    ####
+
+    # The `volumes` tag allows us to share a folder with our container.
+    # Its syntax is as follows: [folder path on our machine]:[folder path to retrieve in the container]
     volumes:
-      # <Volume name>:<Container Datas>
-      - frbatchservicedbvoldata01:/var/lib/mysql
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-# Names our volume
+      # In this example, we share the folder `db-data` in our root repository, with the default PostgreSQL data path.
+      # It means that every time the repository is modifying the data inside
+      # of `/var/lib/postgresql/data/`, automatically the change will appear in `db-data`.
+      # You don't need to create the `db-data` folder. Docker Compose will do it for you.
+      - urlshortenerdb-data:/var/lib/postgresql/data/
 volumes:
-  frbatchservicedbvoldata01:
+  urlshortenerdb-data:
