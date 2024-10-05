@@ -1,0 +1,35 @@
+### root
+GET http://127.0.0.1:8000/
+
+### ping
+GET http://127.0.0.1:8000/ping
+
+### hello
+GET http://127.0.0.1:8000/hello/Jhon
+
+### complex 1
+GET http://127.0.0.1:8000/hello/Jhon/18/true
+
+### complex 2
+GET http://127.0.0.1:8000/hello/Jhon/18/false
+
+### static files
+GET http://127.0.0.1:8000/static/a.html
+
+### static files
+GET http://127.0.0.1:8000/static/b.html
+
+### static files NOT FOUND
+GET http://127.0.0.1:8000/static/b.html
+
+
+### static files easier way in rocker
+GET http://127.0.0.1:8000/public/a.html
+
+### post a short url
+POST http://127.0.0.1:8000/short-url
+Content-Type: application/json
+
+{
+  "url": "https://example.com"
+}

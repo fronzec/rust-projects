@@ -1,0 +1,41 @@
+# Task reference usage https://taskfile.dev/usage/
+---
+version: '3'
+silent: true
+env:
+  APP_DATABASE_URL: postgresql://localhost:5432/urlshortenerdb
+tasks:
+  hello:
+    cmds:
+      - echo "Task works ok!!!"
+  setup-envs:
+    cmds:
+      - cp ./__meta/devenvironment/compose.env ./__meta/devenvironment/.env
+    # test existence of files
+    preconditions:
+      - sh: "! test -f .env"
+        msg: "==========> .env file already exists, their values will be used"
+  runmocksservices:
+    cmds:
+      - PYTHONPATH=./__meta/devenvironment/mocks/ mockintosh ./__meta/devenvironment/mocks/mocks.yaml
+  runmocksservicesquiet:
+    cmds:
+      - PYTHONPATH=./__meta/devenvironment/mocks/ mockintosh --quiet ./__meta/devenvironment/mocks/mocks.yaml
+  dbfullsetup:
+    cmds:
+      - task: createdb
+      - task: loadinfo
+      - echo "db setup finished"
+  createdb:
+    cmds:
+      - psql -U '' postgres -c 'create database urlshortenerdb;'
+  loadinfo:
+    cmds:
+      - psql -U '' -d urlshortenerdb -a -f "./_devenvironment/db/init_data.sql"
+  podmanup:
+    cmds:
+      - podman-compose --file ./__meta/devenvironment/docker-compose.yml up -d
+  # remove pods but not orphans or volumes
+  podmandown:
+    cmds:
+      - podman-compose --file ./__meta/devenvironment/docker-compose.yml down

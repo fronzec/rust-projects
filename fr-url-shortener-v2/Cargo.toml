@@ -1,0 +1,9 @@
+[package]
+name = "fr-url-shortener-v2"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rocket = { version = "0.5.1", features = ["json"] }
+serde = { version = "1.0.210", features = ["derive"] }
+log = "0.4.22"

@@ -1,0 +1,53 @@
+openapi: 3.1.0
+info:
+  title: Fr URL shortener specification
+  description: Fr URL shortener specification
+  version: 1.0.0
+servers:
+  - url: 'https.example.com'
+paths:
+  /shorten:
+    post:
+      summary: Create a Shortened URL
+      description: This endpoint allows creating a shortened URL from a URL provided in the request body.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  example: "https://www.example.com"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  shortened_url:
+                    type: string
+                    example: "https://short.ly/abc123"
+  /{shortened_url}:
+    get:
+      summary: Redirect using the Shortened URL
+      description: This endpoint redirects to the original URL using the shortened URL.
+      parameters:
+        - name: shortened_url
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '301':
+          description: Redirect
+          headers:
+            Location:
+              description: The URL to redirect to
+              schema:
+                type: string
+              example: "https://www.example.com"
+  
