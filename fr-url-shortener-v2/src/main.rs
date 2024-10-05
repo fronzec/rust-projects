@@ -20,6 +20,15 @@ fn short_url(payload: Json<ShortenRequest<'_>>) -> Value {
     json!({ "status": "ok", "url": "short_url" })
 }
 
+
+#[catch(422)]
+fn bad_request() -> Value {
+    json!({
+        "status": "error",
+        "reason": "bad request."
+    })
+}
+
 #[get("/")]
 fn index() -> &'static str {
     "/"
@@ -60,4 +69,5 @@ fn rocket() -> _ {
         .mount("/short-url", routes![short_url])
         // other easier way to serve files from `/static` at path `/public`
         .mount("/public", FileServer::from("static"))
+        .register("/short-url", catchers![bad_request])
 }
