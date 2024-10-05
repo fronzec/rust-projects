@@ -1,9 +1,24 @@
 #[macro_use]
 extern crate rocket;
 
+use log;
 use std::fmt::format;
 use std::path::{Path, PathBuf};
 use rocket::fs::{NamedFile, FileServer};
+use rocket::serde::json::{Json, Value, json};
+use rocket::serde::{Deserialize, Serialize};
+
+#[derive(Deserialize, Serialize)]
+#[serde(crate = "rocket::serde")]
+#[derive(Debug)]
+struct ShortenRequest<'r> {
+    url: &'r str
+}
+#[post("/", format="json", data="<payload>")]
+fn short_url(payload: Json<ShortenRequest<'_>>) -> Value {
+    log::info!("shorten: {:?}", payload.into_inner());
+    json!({ "status": "ok", "url": "short_url" })
+}
 
 #[get("/")]
 fn index() -> &'static str {
@@ -42,6 +57,7 @@ async fn static_files(file: PathBuf) -> Option<NamedFile> {
 fn rocket() -> _ {
     rocket::build()
         .mount("/", routes![index, ping, hello, hello_world, static_files])
+        .mount("/short-url", routes![short_url])
         // other easier way to serve files from `/static` at path `/public`
         .mount("/public", FileServer::from("static"))
 }
