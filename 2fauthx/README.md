@@ -5,3 +5,26 @@ This template should help get you started developing with Tauri + Vue 3 in Vite.
 ## Recommended IDE Setup
 
 - [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+
+## To get started run:
+```sh
+  cd 2fauthx
+  pnpm install
+  pnpm tauri android init
+  pnpm tauri ios init
+```
+
+### For Desktop development, run:
+```sh
+  pnpm tauri dev
+```
+
+### For Android development, run:
+```sh
+  pnpm tauri android dev
+```
+
+### For iOS development, run:
+```sh
+  pnpm tauri ios dev
+```
