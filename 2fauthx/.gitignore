@@ -22,3 +22,14 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Tauri build artifacts
+/src-tauri/target
+/src-tauri/target/wasm32-unknown-unknown/release
+/src-tauri/target/wasm32-unknown-unknown/debug
+/src-tauri/target/release
+/src-tauri/target/debug
+/src-tauri/target/.fingerprint
+/src-tauri/target/.cargo-lock
+/src-tauri/target/.rustc_info.json
+/src-tauri/target/.rustdoc_info.json
