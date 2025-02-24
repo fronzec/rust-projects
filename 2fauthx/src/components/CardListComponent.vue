@@ -7,17 +7,47 @@ const cards = ref([
   {
     title: "Tarjeta de ejemplo 1",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    imagen: "https://picsum.photos/400/200?random=1"
+    imagen: "https://placehold.co/100x100"
   },
   {
     title: "Tarjeta de ejemplo 2",
     description: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    imagen: "https://picsum.photos/400/200?random=2"
+    imagen: "https://placehold.co/100x100"
   },
   {
     title: "Tarjeta de ejemplo 3",
     description: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-    imagen: "https://picsum.photos/400/200?random=3"
+    imagen: "https://placehold.co/100x100"
+  },
+  {
+    title: "Tarjeta de ejemplo 1",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    imagen: "https://placehold.co/100x100"
+  },
+  {
+    title: "Tarjeta de ejemplo 2",
+    description: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    imagen: "https://placehold.co/100x100"
+  },
+  {
+    title: "Tarjeta de ejemplo 3",
+    description: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+    imagen: "https://placehold.co/100x100"
+  },
+  {
+    title: "Tarjeta de ejemplo 1",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    imagen: "https://placehold.co/100x100"
+  },
+  {
+    title: "Tarjeta de ejemplo 2",
+    description: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    imagen: "https://placehold.co/100x100"
+  },
+  {
+    title: "Tarjeta de ejemplo 3",
+    description: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+    imagen: "https://placehold.co/100x100"
   }
 ]);
 </script>
@@ -36,7 +66,6 @@ const cards = ref([
   </div>
 </template>
 
-<!-- CardListComponent.vue -->
 <style scoped>
 .cards-container {
   width: 100%;

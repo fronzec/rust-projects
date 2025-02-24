@@ -13,14 +13,17 @@
 defineProps({
   title: String,
   description: String,
-  imagen: String
+  imagen: {
+    type: String,
+    default: 'https://via.placeholder.com/100x100?text=Icon' // Placeholder image
+  }
 });
 </script>
 
 <style scoped>
 .card {
   width: 100%;
-  max-height: 200px;
+  height: 100px; /* Adjusted height */
   background: #383838;
   border-radius: 12px;
   overflow: hidden;
@@ -29,8 +32,8 @@ defineProps({
 }
 
 .card-image {
-  width: 35%;
-  height: 200px;
+  width: 100px; /* Adjusted width */
+  height: 100px; /* Adjusted height */
   object-fit: cover;
 }
 
@@ -45,17 +48,17 @@ defineProps({
 .card-title {
   margin: 0;
   color: #e0e0e0;
-  font-size: 1.25rem;
+  font-size: 1rem; /* Adjusted font size */
   font-weight: 600;
 }
 
 .card-description {
   margin: 0.5rem 0 0 0;
   color: #b0b0b0;
-  font-size: 0.9rem;
+  font-size: 0.8rem; /* Adjusted font size */
   line-height: 1.4;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2; /* Adjusted line clamp */
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
