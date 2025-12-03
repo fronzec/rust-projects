@@ -5,6 +5,14 @@ import { invoke } from "@tauri-apps/api/core";
 const greetMsg = ref("");
 const name = ref("");
 
+/* contains the current output value, initialized with 0*/
+const currentOutput = ref("0");
+
+/* contains the operation */
+const operation= ref(null);
+
+
+
 async function greet() {
   // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
   greetMsg.value = await invoke("greet", { name: name.value });
@@ -13,26 +21,38 @@ async function greet() {
 
 <template>
   <main class="container">
-    <h1>Welcome to Tauri + Vue</h1>
+    <!-- Basic calculator UI (static, no bindings) -->
+    <section class="calculator" style="margin-top: 2rem; display: inline-block; text-align: center;">
+      <div class="calc-display" style="margin-bottom: 0.75rem;">
+        <input id="calc-display" type="text" value="0" readonly
+               style="width: 14rem; padding: 0.6rem 0.8rem; font-size: 1.25rem; text-align: right; border-radius: 8px; border: 1px solid #ccc; background: #0f0f0f;" />
+      </div>
 
-    <div class="row">
-      <a href="https://vite.dev" target="_blank">
-        <img src="/vite.svg" class="logo vite" alt="Vite logo" />
-      </a>
-      <a href="https://tauri.app" target="_blank">
-        <img src="/tauri.svg" class="logo tauri" alt="Tauri logo" />
-      </a>
-      <a href="https://vuejs.org/" target="_blank">
-        <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-      </a>
-    </div>
-    <p>Click on the Tauri, Vite, and Vue logos to learn more.</p>
+      <div class="calc-grid" style="display: grid; grid-template-columns: repeat(4, 3.5rem); gap: 0.5rem; justify-content: center;">
+        <button type="button" class="btn clear" style="grid-column: span 2;">C</button>
+        <button type="button" class="btn op">/</button>
+        <button type="button" class="btn op">*</button>
 
-    <form class="row" @submit.prevent="greet">
-      <input id="greet-input" v-model="name" placeholder="Enter a name..." />
-      <button type="submit">Greet</button>
-    </form>
-    <p>{{ greetMsg }}</p>
+        <button type="button" class="btn num">7</button>
+        <button type="button" class="btn num">8</button>
+        <button type="button" class="btn num">9</button>
+        <button type="button" class="btn op">-</button>
+
+        <button type="button" class="btn num">4</button>
+        <button type="button" class="btn num">5</button>
+        <button type="button" class="btn num">6</button>
+        <button type="button" class="btn op">+</button>
+
+        <button type="button" class="btn num">1</button>
+        <button type="button" class="btn num">2</button>
+        <button type="button" class="btn num">3</button>
+        <button type="button" class="btn equals" style="grid-row: span 2; height: calc(3.5rem * 2 + 0.5rem);">=</button>
+
+        <button type="button" class="btn num" style="grid-column: span 2;">0</button>
+        <button type="button" class="btn num">.</button>
+        <!-- equals button spans the last column above -->
+      </div>
+    </section>
   </main>
 </template>
 
@@ -135,6 +155,59 @@ button {
 
 #greet-input {
   margin-right: 5px;
+}
+
+.calculator {
+  margin-top: 2rem;
+  display: inline-block;
+  text-align: center;
+}
+
+.calc-display {
+  margin-bottom: 0.75rem;
+}
+
+.calc-display input {
+  width: 14rem;
+  padding: 0.6rem 0.8rem;
+  font-size: 1.25rem;
+  text-align: right;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #fff;
+}
+
+.calc-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 3.5rem);
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.btn {
+  padding: 0.6rem;
+  font-size: 1.125rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background-color: #3f3f3f;
+  transition: background-color 0.25s, transform 0.1s;
+}
+
+.btn:hover {
+  background-color: #e0e0e0;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn.clear {
+  grid-column: span 2;
+}
+
+.btn.equals {
+  grid-row: span 2;
+  height: calc(3.5rem * 2 + 0.5rem);
 }
 
 @media (prefers-color-scheme: dark) {
