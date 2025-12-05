@@ -1,17 +1,70 @@
 <script setup>
-import { ref } from "vue";
 import { invoke } from "@tauri-apps/api/core";
+import { ref } from "vue";
 
 const greetMsg = ref("");
 const name = ref("");
 
-/* contains the current output value, initialized with 0*/
+// contiene el valor actual mostrado en el display
 const currentOutput = ref("0");
 
-/* contains the operation */
-const operation= ref(null);
+// (opcional, si quieres mantenerla) referencia a la operación actual
+const operation = ref(null);
 
+/* funciones para controlar el display y botones */
+function clear() {
+  currentOutput.value = "0";
+  operation.value = null;
+}
 
+function appendNumber(number) {
+  if (currentOutput.value === "0" || operation.value === "result") {
+    currentOutput.value = String(number);
+  } else {
+    currentOutput.value += String(number);
+  }
+  operation.value = null;
+}
+
+function appendDot() {
+  // evitar múltiples puntos seguidos en la última porción numérica
+  // si el último token numérico ya tiene '.', no añadir otro
+  // enfoque simple: evitar más de un '.' en toda la cadena si prefieres
+  // una solución más robusta requiere parsing.
+  const lastChar = currentOutput.value.slice(-1);
+  if (["+", "-", "*", "/"].includes(lastChar)) {
+    return;
+  }
+  const parts = currentOutput.value.split(/[\+\-\*\/]/);
+  const lastNum = parts[parts.length - 1];
+  if (!lastNum.includes(".")) {
+    currentOutput.value += ".";
+  }
+}
+
+function setOperator(op) {
+  const last = currentOutput.value.slice(-1);
+  if (["+", "-", "*", "/"].includes(last)) {
+    // reemplaza el operador final por el nuevo
+    currentOutput.value = currentOutput.value.slice(0, -1) + op;
+  } else {
+    currentOutput.value += op;
+  }
+}
+
+async function evaluate() {
+  try {
+    // envía la expresión completa al comando Rust 'calculate'
+    const result = await invoke("calculate", { operation: currentOutput.value });
+    currentOutput.value = String(result);
+    operation.value = "result";
+  } catch (e) {
+    // muestra error simple en el display
+    currentOutput.value = "Error";
+    operation.value = "result";
+    console.error(e);
+  }
+}
 
 async function greet() {
   // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
@@ -21,36 +74,35 @@ async function greet() {
 
 <template>
   <main class="container">
-    <!-- Basic calculator UI (static, no bindings) -->
+    <!-- Calculadora: display enlazado y botones con handlers -->
     <section class="calculator" style="margin-top: 2rem; display: inline-block; text-align: center;">
       <div class="calc-display" style="margin-bottom: 0.75rem;">
-        <input id="calc-display" type="text" value="0" readonly
+        <input id="calc-display" type="text" :value="currentOutput" readonly
                style="width: 14rem; padding: 0.6rem 0.8rem; font-size: 1.25rem; text-align: right; border-radius: 8px; border: 1px solid #ccc; background: #0f0f0f;" />
       </div>
 
       <div class="calc-grid" style="display: grid; grid-template-columns: repeat(4, 3.5rem); gap: 0.5rem; justify-content: center;">
-        <button type="button" class="btn clear" style="grid-column: span 2;">C</button>
-        <button type="button" class="btn op">/</button>
-        <button type="button" class="btn op">*</button>
+        <button type="button" class="btn clear" style="grid-column: span 2;" @click="clear()">C</button>
+        <button type="button" class="btn op" @click="setOperator('/')">/</button>
+        <button type="button" class="btn op" @click="setOperator('*')">*</button>
 
-        <button type="button" class="btn num">7</button>
-        <button type="button" class="btn num">8</button>
-        <button type="button" class="btn num">9</button>
-        <button type="button" class="btn op">-</button>
+        <button type="button" class="btn num" @click="appendNumber(7)">7</button>
+        <button type="button" class="btn num" @click="appendNumber(8)">8</button>
+        <button type="button" class="btn num" @click="appendNumber(9)">9</button>
+        <button type="button" class="btn op" @click="setOperator('-')">-</button>
 
-        <button type="button" class="btn num">4</button>
-        <button type="button" class="btn num">5</button>
-        <button type="button" class="btn num">6</button>
-        <button type="button" class="btn op">+</button>
+        <button type="button" class="btn num" @click="appendNumber(4)">4</button>
+        <button type="button" class="btn num" @click="appendNumber(5)">5</button>
+        <button type="button" class="btn num" @click="appendNumber(6)">6</button>
+        <button type="button" class="btn op" @click="setOperator('+')">+</button>
 
-        <button type="button" class="btn num">1</button>
-        <button type="button" class="btn num">2</button>
-        <button type="button" class="btn num">3</button>
-        <button type="button" class="btn equals" style="grid-row: span 2; height: calc(3.5rem * 2 + 0.5rem);">=</button>
+        <button type="button" class="btn num" @click="appendNumber(1)">1</button>
+        <button type="button" class="btn num" @click="appendNumber(2)">2</button>
+        <button type="button" class="btn num" @click="appendNumber(3)">3</button>
+        <button type="button" class="btn equals" style="grid-row: span 2; height: calc(3.5rem * 2 + 0.5rem);" @click="evaluate()">=</button>
 
-        <button type="button" class="btn num" style="grid-column: span 2;">0</button>
-        <button type="button" class="btn num">.</button>
-        <!-- equals button spans the last column above -->
+        <button type="button" class="btn num" style="grid-column: span 2;" @click="appendNumber(0)">0</button>
+        <button type="button" class="btn num" @click="appendDot()">.</button>
       </div>
     </section>
   </main>
